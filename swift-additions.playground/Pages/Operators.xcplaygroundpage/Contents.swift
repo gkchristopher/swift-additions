@@ -2,6 +2,8 @@
 
 import Foundation
 
+// Range operators
+
 precedencegroup RangeFormationPrecedence {
     associativity: left
     higherThan: CastingPrecedence
@@ -14,5 +16,5 @@ func ...(lhs: CountableClosedRange<Int>, rhs: Int) -> [Int] {
     return Array(lhs) + downwards
 }
 
-let range = 1...100...1
+let range = 1...10...1
 print(range)
