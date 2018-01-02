@@ -4,5 +4,6 @@
         <page name='Functions'/>
         <page name='Operators'/>
         <page name='Structs'/>
+        <page name='Extensions'/>
     </pages>
 </playground>

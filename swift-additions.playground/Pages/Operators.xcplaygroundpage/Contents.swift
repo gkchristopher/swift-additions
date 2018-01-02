@@ -2,7 +2,7 @@
 
 import Foundation
 
-// Range operators
+// Range operator
 
 precedencegroup RangeFormationPrecedence {
     associativity: left
@@ -17,4 +17,18 @@ func ...(lhs: CountableClosedRange<Int>, rhs: Int) -> [Int] {
 }
 
 let range = 1...10...1
-print(range)
+
+// Power operator
+
+precedencegroup ExponentiationPrecedence {
+    associativity: right
+    higherThan: MultiplicationPrecedence
+}
+
+infix operator ** : ExponentiationPrecedence
+
+func **(lhs: Double, rhs: Double) -> Double {
+    return pow(lhs, rhs)
+}
+
+let value = 2 ** 2 ** 3
