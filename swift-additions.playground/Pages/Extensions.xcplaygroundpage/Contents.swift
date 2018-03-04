@@ -16,7 +16,7 @@ extension Sequence where Element: Hashable {
         return Dictionary(frequencyPairs, uniquingKeysWith: +)
     }
 
-    func uniques() -> [Element] {
+    var uniques: [Element] {
         var seen: Set<Element> = []
         return filter { element in
             if seen.contains(element) {
@@ -33,4 +33,4 @@ let frequecies = "hello".frequencies
 let onlyOne = frequecies.filter { $0.value == 1 }
 print(onlyOne)
 
-let uniques = [1, 2, 3, 12, 1, 3, 4, 5, 6, 4, 6].uniques()
+let uniques = [1, 2, 3, 12, 1, 3, 4, 5, 6, 4, 6].uniques
