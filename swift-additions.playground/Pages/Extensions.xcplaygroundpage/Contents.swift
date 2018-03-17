@@ -1,14 +1,18 @@
 import Foundation
 
+// Array
 extension Array {
     subscript(safe idx: Int) -> Element? {
         return idx < endIndex ? self[idx] : nil
     }
 }
 
+// Test
 let testArray = [1, 2, 3]
+testArray[safe: 1]
 testArray[safe: 7]
 
+// Sequence
 extension Sequence where Element: Hashable {
 
     var frequencies: [Element: Int] {
@@ -29,8 +33,18 @@ extension Sequence where Element: Hashable {
     }
 }
 
-let frequecies = "hello".frequencies
-let onlyOne = frequecies.filter { $0.value == 1 }
-print(onlyOne)
+// Test
+"hello".frequencies
+[1, 2, 3, 12, 1, 3, 4, 5, 6, 4, 6].uniques
 
-let uniques = [1, 2, 3, 12, 1, 3, 4, 5, 6, 4, 6].uniques
+// Collection
+extension Collection {
+
+    var isNotEmpty: Bool {
+        return !isEmpty
+    }
+}
+
+// Test
+[1, 2, 3, 4].isNotEmpty
+
