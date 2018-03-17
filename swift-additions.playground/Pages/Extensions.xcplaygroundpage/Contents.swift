@@ -40,11 +40,11 @@ extension Sequence where Element: Hashable {
 // Collection
 extension Collection {
 
-    var isNotEmpty: Bool {
+    var hasElements: Bool {
         return !isEmpty
     }
 }
 
 // Test
-[1, 2, 3, 4].isNotEmpty
+[1, 2, 3, 4].hasElements
 
