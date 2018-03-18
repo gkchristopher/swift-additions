@@ -1,4 +1,5 @@
 import Foundation
+import PlaygroundSupport
 
 /// Adds weak capture when setting a closure so
 /// delegating class does not creat retain cycle
@@ -16,6 +17,36 @@ struct DelegatedCall<Input> {
         }
     }
 }
+
+// Test
+class MyApi {
+    var delegateCallback = DelegatedCall<String>()
+
+    func performTask() {
+        let newString = ["This", "is", "a", "string."].joined(separator: " ")
+        self.delegateCallback.callback?(newString)
+    }
+}
+
+class User {
+    let api = MyApi()
+    var aString: String?
+
+    init() {
+        api.delegateCallback.delegate(to: self) { (self, someString) in
+            self.aString = someString
+            print(someString)
+        }
+    }
+
+    func getString() {
+        api.performTask()
+    }
+}
+
+PlaygroundPage.current.needsIndefiniteExecution = true
+let user = User()
+user.getString()
 
 // Generic Counted Set
 struct CustomCountedSet<T: Any> {
@@ -39,7 +70,7 @@ var countedSet = CustomCountedSet<String>()
 countedSet.add("Hello")
 countedSet.add("World")
 countedSet.add("Hello")
-print(countedSet.count(for: "Hello"))
+countedSet.count(for: "Hello")
 
 // Generic Deque
 struct Deque<T> {
@@ -72,9 +103,11 @@ testDeque.pushBack(3)
 testDeque.pushFront(2)
 testDeque.pushBack(7)
 
-print(testDeque)
+dump(testDeque)
 
 testDeque.popFront()
 testDeque.popBack()
 testDeque.popFront()
 testDeque.popFront()
+
+PlaygroundPage.current.finishExecution()
