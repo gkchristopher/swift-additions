@@ -1,5 +1,4 @@
 import Foundation
-import PlaygroundSupport
 
 /// Adds weak capture when setting a closure so
 /// delegating class does not creat retain cycle
@@ -44,7 +43,6 @@ class User {
     }
 }
 
-PlaygroundPage.current.needsIndefiniteExecution = true
 let user = User()
 user.getString()
 
@@ -109,5 +107,3 @@ testDeque.popFront()
 testDeque.popBack()
 testDeque.popFront()
 testDeque.popFront()
-
-PlaygroundPage.current.finishExecution()
