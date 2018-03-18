@@ -1,16 +1,27 @@
 import Foundation
 
+// Data
+extension Data {
+    var hexString: String {
+        return self.map({ return String(format: "%02hhx", $0) }).joined()
+    }
+}
+
+let data = Data(bytes: [0, 2, 3, 4, 255])
+data.hexString
+
 // Array
 extension Array {
     subscript(safe idx: Int) -> Element? {
-        return idx < endIndex ? self[idx] : nil
+        return (startIndex..<endIndex).contains(idx) ? self[idx] : nil
     }
 }
 
 // Test
 let testArray = [1, 2, 3]
 testArray[safe: 1]
-testArray[safe: 7]
+testArray[safe: 3]
+testArray[safe: -1]
 
 // Sequence
 extension Sequence where Element: Hashable {
