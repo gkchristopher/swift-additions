@@ -1,5 +1,22 @@
 import Foundation
 
+/// Adds weak capture when setting a closure so
+/// delegating class does not creat retain cycle
+/// by forgetting to use weak capture.
+struct DelegatedCall<Input> {
+
+    private(set) var callback: ((Input) -> Void)?
+
+    mutating func delegate<Object: AnyObject>(to object: Object, with callback: @escaping (Object, Input) -> Void) {
+        self.callback = { [weak object] input in
+            guard let object = object else {
+                return
+            }
+            callback(object, input)
+        }
+    }
+}
+
 // Generic Counted Set
 struct CustomCountedSet<T: Any> {
     private let internalSet = NSCountedSet()
@@ -17,6 +34,7 @@ struct CustomCountedSet<T: Any> {
     }
 }
 
+// Tests
 var countedSet = CustomCountedSet<String>()
 countedSet.add("Hello")
 countedSet.add("World")
@@ -48,8 +66,8 @@ struct Deque<T> {
     }
 }
 
+// Tests
 var testDeque = Deque<Int>()
-
 testDeque.pushBack(3)
 testDeque.pushFront(2)
 testDeque.pushBack(7)
