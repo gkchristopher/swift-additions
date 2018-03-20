@@ -24,6 +24,47 @@ coll.elementAfter("c", where: ==)
 coll.elementAfter("c", where: >=)
 coll.elementAfter("z", where: ==)
 
+struct CyclicSequence<Base: Sequence>: Sequence {
+    let base: Base
+
+    init(base: Base) {
+        self.base = base
+    }
+
+    func makeIterator() -> CyclicIterator<Base> {
+        return CyclicIterator(base: base)
+    }
+}
+
+struct CyclicIterator<Base: Sequence>: IteratorProtocol {
+    typealias Element = Base.Element
+
+    let base: Base
+    var currentIterator: Base.Iterator
+
+    init(base: Base) {
+        self.base = base
+        self.currentIterator = base.makeIterator()
+    }
+
+    mutating func next() -> Base.Element? {
+        if let next = currentIterator.next() {
+            return next
+        }
+        currentIterator = base.makeIterator()
+        if let next = currentIterator.next() {
+            return next
+        }
+        return nil
+    }
+}
+
+extension Sequence {
+    func cycle() -> CyclicSequence<Self> {
+        return CyclicSequence(base: self)
+    }
+}
+
 // Data
 extension Data {
     var hexString: String {
