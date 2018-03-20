@@ -2,6 +2,7 @@ import Foundation
 
 // Collection
 extension Collection {
+    /// Finds next element satisfying the predicate and wraps around the end of collection
     func elementAfter(_ element: Element, where predicate: (Element, Element) -> Bool) -> Element? {
         guard let index = index(where: { predicate(element, $0) }) else {
             return first
