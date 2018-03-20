@@ -1,5 +1,28 @@
 import Foundation
 
+// Collection
+extension Collection {
+    func elementAfter(_ element: Element, where predicate: (Element, Element) -> Bool) -> Element? {
+        guard let index = index(where: { predicate(element, $0) }) else {
+            return first
+        }
+
+        return self[wraparoundIndex(after: index)]
+    }
+
+    func wraparoundIndex(after idx: Index) -> Index {
+        let nextIndex = index(after: idx)
+        return nextIndex == self.endIndex ? self.startIndex : nextIndex
+    }
+}
+
+// Test
+let coll = AnyCollection(["a", "b", "c", "d"])
+coll.elementAfter("a", where: ==)
+coll.elementAfter("c", where: ==)
+coll.elementAfter("c", where: >=)
+coll.elementAfter("z", where: ==)
+
 // Data
 extension Data {
     var hexString: String {
