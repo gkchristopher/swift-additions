@@ -1,4 +1,45 @@
 import Foundation
+import UIKit
+import PlaygroundSupport
+
+// UIImage
+extension UIImage {
+    func square(size: CGFloat) -> UIImage? {
+        return square()?.resize(newSize: CGSize(width: size, height: size))
+    }
+
+    func square() -> UIImage? {
+        let oWidth = CGFloat(self.cgImage!.width)
+        let oHeight = CGFloat(self.cgImage!.height)
+        let sqSize = min(oWidth, oHeight)
+        let x = (oWidth - sqSize) / 2.0
+        let y = (oHeight - sqSize) / 2.0
+        let rect = CGRect(x: x, y: y, width: sqSize, height: sqSize)
+        let sqImage = self.cgImage!.cropping(to: rect)
+        return UIImage(cgImage: sqImage!, scale: self.scale, orientation: self.imageOrientation)
+    }
+
+    func resize(newSize: CGSize) -> UIImage? {
+        let oWidth = self.size.width
+        let oHeight = self.size.height
+        let wRatio = newSize.width  / oWidth
+        let hRatio = newSize.height / oHeight
+
+        var nuSize: CGSize
+        if(wRatio > hRatio) {
+            nuSize = CGSize(width: oWidth * hRatio, height: oHeight * hRatio)
+        } else {
+            nuSize = CGSize(width: oWidth * wRatio, height: oHeight * wRatio)
+        }
+        let rect = CGRect(x: 0, y: 0, width: nuSize.width, height: nuSize.height)
+
+        UIGraphicsBeginImageContextWithOptions(nuSize, false, self.scale)
+        self.draw(in: rect)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return newImage
+    }
+}
 
 // Collection
 extension Collection {
